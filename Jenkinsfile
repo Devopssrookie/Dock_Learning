@@ -2,8 +2,8 @@ pipeline {
     agent any
  
     environment {
-        DOCKER_IMAGE = 'frst_project_image'
-        DOCKER_CONTAINER = 'frst_project_container'
+        DOCKER_IMAGE = 'frst_proj_image'
+        DOCKER_CONTAINER = 'frst_proj_container'
         DOCKER_RUN_OPTIONS = "-p 8000:8000 --name ${DOCKER_CONTAINER} --rm"
     }
  
