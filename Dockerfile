@@ -19,4 +19,4 @@ RUN pip install -r Requirement.txt
 EXPOSE 8000
  
 # Define the command to run the Django app when the container starts
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
