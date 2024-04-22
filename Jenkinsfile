@@ -1,28 +1,30 @@
 pipeline {
     agent any
+ 
+    environment {
+        DOCKER_IMAGE = 'frst_project_image'
+        DOCKER_CONTAINER = 'frst_project_container'
+        DOCKER_RUN_OPTIONS = "-p 8000:8000 --name ${DOCKER_CONTAINER} --rm"
+    }
+ 
     stages {
-        stage('Add directory to PATH') {
+        stage('Build') {
             steps {
+                // Checkout the code from Git
+                checkout scm
+ 
+                // Build the Docker image
                 script {
-                    // Add the directory containing gunicorn to the PATH
-                    env.PATH = "/var/lib/jenkins/.local/bin:${env.PATH}"
-                }
-            }
-        }
-        stage('Check PATH') {
-            steps {
-                script {
-                    // Print the updated value of the PATH environment variable
-                    echo "Updated PATH: ${env.PATH}"
+                    docker.build(DOCKER_IMAGE, '.')
                 }
             }
         }
         stage('Deploy') {
             steps {
-                // Change to the project directory
-                dir('/var/lib/jenkins/workspace/Demo_1/Proj_dep') {
-                    // Run gunicorn command here
-                    sh 'gunicorn frst_proj.wsgi:application --bind 0.0.0.0:8000 --daemon'
+                // Run the Docker container
+                script {
+                    dockerImage = docker.image(DOCKER_IMAGE)
+                    dockerImage.run(DOCKER_RUN_OPTIONS, DOCKER_IMAGE)
                 }
             }
         }
