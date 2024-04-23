@@ -9,7 +9,7 @@ pipeline {
 
                 // Build the Docker image
                 script {
-                    docker.build('frst_proj_image', '.')
+                    docker.build('frst_proj_image', '-f Dockerfile .')
                 }
             }
         }
